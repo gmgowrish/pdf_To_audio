@@ -5,7 +5,7 @@
 **Turn any PDF into an audiobook. Text is extracted page by page and read aloud offline.**
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![PyPDF2](https://img.shields.io/badge/PyPDF2-text_extraction-informational?style=flat-square)
+![pypdf](https://img.shields.io/badge/pypdf-text_extraction-informational?style=flat-square)
 ![pyttsx3](https://img.shields.io/badge/pyttsx3-offline_TTS-success?style=flat-square)
 
 </div>
@@ -14,10 +14,11 @@
 
 ## ✨ Features
 
-- 📄 Extracts text from **every page** of a PDF with PyPDF2
+- 📄 Extracts text from **every page** of a PDF with pypdf
 - 🔊 Reads it aloud with **pyttsx3**, which works **offline** with no API keys
-- 🎚️ Adjustable **speaking rate** and **voice**
-- 🖥️ Prints each page number and its text as it reads
+- 💾 Can **save the audio to a WAV file** instead of playing it
+- 🎚️ Adjustable **speed**, **voice** and **start page**
+- 🖥️ Prints each page's text as it reads
 
 ---
 
@@ -27,35 +28,40 @@
 git clone https://github.com/gmgowrish/pdf_To_audio.git
 cd pdf_To_audio
 
-pip install PyPDF2 pyttsx3
+pip install -r requirements.txt
 ```
 
-> **Linux:** pyttsx3 uses eSpeak, so install it first: `sudo apt install espeak` (Debian/Ubuntu) or `sudo dnf install espeak` (Fedora).
+> **Linux:** install eSpeak NG first: `sudo apt install espeak-ng` (Debian/Ubuntu) or `sudo dnf install espeak-ng` (Fedora).
 
-### Use your own PDF
-
-Put your PDF in the folder and change the file name in `main.py`:
-
-```python
-with open('your-book.pdf', 'rb') as book:
-```
-
-Then run:
+Try it with the included sample:
 
 ```bash
 python main.py
 ```
 
----
+Read your own PDF:
 
-## ⚙️ Customize
-
-```python
-audio_reader.setProperty('rate', 200)                         # words per minute
-audio_reader.setProperty('voice', audio_reader.voices[0].id)  # 0 / 1 = different voices
+```bash
+python main.py my-book.pdf
 ```
 
-The available voices depend on your operating system.
+---
+
+## ⚙️ Options
+
+| Option | Example | What it does |
+|---|---|---|
+| `pdf` | `python main.py notes.pdf` | PDF to read (default: `sample.pdf`) |
+| `--rate` | `--rate 150` | Speaking speed in words per minute (default: 200) |
+| `--voice` | `--voice 2` | Voice to use (default: your system voice) |
+| `--list-voices` | `--list-voices` | Show the available voices and their numbers |
+| `--start` | `--start 10` | Start reading from page 10 |
+| `--save` | `--save book.wav` | Save the audio to a file instead of playing it |
+
+```bash
+# Save chapter audio from page 5 onwards, read a bit slower
+python main.py my-book.pdf --start 5 --rate 160 --save my-book.wav
+```
 
 ---
 
@@ -63,16 +69,16 @@ The available voices depend on your operating system.
 
 ```mermaid
 flowchart LR
-    A[PDF file] --> B[PyPDF2<br/>extract text per page]
+    A[PDF file] --> B[pypdf<br/>extract text per page]
     B --> C[pyttsx3<br/>text-to-speech]
     C --> D[🔊 Speakers]
 ```
 
 ## 🔮 Ideas
 
-- Save the audio to an MP3 instead of playing it
+- Export to MP3
 - Pick the PDF with a file dialog
-- Start from a chosen page
+- A simple GUI with play / pause
 
 ---
 
